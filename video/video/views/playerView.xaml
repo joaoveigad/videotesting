@@ -1,15 +1,56 @@
 ﻿<Window x:Class="video.Views.PlayerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:video"
-        mc:Ignorable="d"
         Title="Video" Height="450" Width="800">
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="99*"/>
-            <ColumnDefinition Width="301*"/>
-        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Background="Black">
+            <MediaElement x:Name="VideoPlayer"
+                          LoadedBehavior="Manual"
+                          UnloadedBehavior="Manual"
+                          Stretch="Uniform"/>
+        </Grid>
+
+        <Border Grid.Row="1"
+                Background="Gray"
+                Padding="8">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center">
+                    <Button Width="70" Height="30">Play</Button>
+                    <Button Width="40" Height="30" Margin="8,0,0,0">b</Button>
+                    <Button Width="70" Height="30" Margin="8,0,0,0">Stop</Button>
+                    <Button Width="40" Height="30" Margin="8,0,0,0">f</Button>
+                </StackPanel>
+
+                <Slider Grid.Column="1"
+                        VerticalAlignment="Center"
+                        Margin="12,0"/>
+
+                <TextBlock Grid.Column="2"
+                           VerticalAlignment="Center"
+                           Margin="8,0"
+                           Foreground="White"
+                           Text="00:00 / 00:00"/>
+
+                <Slider Grid.Column="3"
+                        Width="100"
+                        VerticalAlignment="Center"
+                        Margin="12,0"/>
+            </Grid>
+        </Border>
     </Grid>
 </Window>
