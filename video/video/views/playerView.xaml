@@ -1,29 +1,59 @@
 ﻿<Window x:Class="video.Views.PlayerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Video" Height="450" Width="800">
+        Title="Video"
+        Height="450"
+        Width="800"
+        MinHeight="300"
+        MinWidth="400"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- Header -->
+            <!-- header -->
             <RowDefinition Height="*"/>
-            <!-- Vídeo -->
+            <!-- player -->
             <RowDefinition Height="Auto"/>
-            <!-- Controles -->
+            <!-- navigation -->
         </Grid.RowDefinitions>
 
-        <!-- Header -->
-        <Border Grid.Row="0">
-            <Grid Background="LightGray">
-                <TextBlock Text="Header"
-                           FontSize="20"
-                           FontWeight="Bold"
-                           Margin="1"/>
-            </Grid>
+        <!-- header -->
+        <Border Grid.Row="0" Background="LightGray">
+            <ItemsControl HorizontalAlignment="Stretch"
+                          VerticalAlignment="Center">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Background="Transparent"
+                                BorderThickness="0"
+                                Padding="5"
+                                Margin="3">
+                            <TextBlock Text="{Binding}" FontSize="15"/>
+                        </Button>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+
+                <ItemsControl.ItemsSource>
+                    <x:Array Type="sys:String">
+                        <sys:String>File</sys:String>
+                        <sys:String>View</sys:String>
+                        <sys:String>Reproduction</sys:String>
+                        <sys:String>Audio</sys:String>
+                        <sys:String>Video</sys:String>
+                        <sys:String>Subtitles</sys:String>
+                        <sys:String>Help</sys:String>
+                    </x:Array>
+                </ItemsControl.ItemsSource>
+            </ItemsControl>
         </Border>
 
-        <!-- Vídeo -->
+        <!-- player -->
         <Grid Grid.Row="1" Background="Black">
             <MediaElement x:Name="VideoPlayer"
                           LoadedBehavior="Manual"
@@ -31,8 +61,10 @@
                           Stretch="Uniform"/>
         </Grid>
 
-        <!-- Controles -->
-        <Border Grid.Row="2" Background="LightGray" Padding="8">
+        <!-- navigation -->
+        <Border Grid.Row="2"
+                Background="LightGray"
+                Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -41,19 +73,25 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <StackPanel Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Margin="0,0,8,0">
                     <Button Width="70" Height="30">⏯</Button>
                     <Button Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
                     <Button Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
                     <Button Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
                 </StackPanel>
 
-                <Slider Grid.Column="1" VerticalAlignment="Center" Margin="12,0"/>
+                <Slider Grid.Column="1"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Stretch"
+                        Margin="12,0"/>
 
                 <TextBlock Grid.Column="2"
                            VerticalAlignment="Center"
                            Margin="8,0"
-                           Foreground="White"
+                           Foreground="Black"
                            Text="00:00 / 00:00"/>
 
                 <Slider Grid.Column="3"
@@ -62,6 +100,5 @@
                         Margin="12,0"/>
             </Grid>
         </Border>
-
     </Grid>
 </Window>
