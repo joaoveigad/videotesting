@@ -32,7 +32,7 @@
                     <DataTemplate>
                         <Button Background="Transparent"
                                 BorderThickness="0"
-                                Padding="5"
+                                Padding="1.5"
                                 Margin="3">
                             <TextBlock Text="{Binding}" FontSize="15"/>
                         </Button>
@@ -64,7 +64,7 @@
         <!-- navigation -->
         <Border Grid.Row="2"
                 Background="LightGray"
-                Padding="8">
+                Padding="4.5">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
