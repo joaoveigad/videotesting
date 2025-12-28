@@ -5,21 +5,34 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Vídeo -->
+            <RowDefinition Height="Auto"/>
+            <!-- Controles -->
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0" Background="Black">
+        <!-- Header -->
+        <Border Grid.Row="0">
+            <Grid Background="LightGray">
+                <TextBlock Text="Header"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           Margin="1"/>
+            </Grid>
+        </Border>
+
+        <!-- Vídeo -->
+        <Grid Grid.Row="1" Background="Black">
             <MediaElement x:Name="VideoPlayer"
                           LoadedBehavior="Manual"
                           UnloadedBehavior="Manual"
                           Stretch="Uniform"/>
         </Grid>
 
-        <Border Grid.Row="1"
-                Background="Gray"
-                Padding="8">
-
+        <!-- Controles -->
+        <Border Grid.Row="2" Background="LightGray" Padding="8">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -28,17 +41,14 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Orientation="Horizontal"
-                            VerticalAlignment="Center">
-                    <Button Width="70" Height="30">Play</Button>
-                    <Button Width="40" Height="30" Margin="8,0,0,0">b</Button>
-                    <Button Width="70" Height="30" Margin="8,0,0,0">Stop</Button>
-                    <Button Width="40" Height="30" Margin="8,0,0,0">f</Button>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button Width="70" Height="30">⏯</Button>
+                    <Button Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
+                    <Button Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
+                    <Button Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
                 </StackPanel>
 
-                <Slider Grid.Column="1"
-                        VerticalAlignment="Center"
-                        Margin="12,0"/>
+                <Slider Grid.Column="1" VerticalAlignment="Center" Margin="12,0"/>
 
                 <TextBlock Grid.Column="2"
                            VerticalAlignment="Center"
@@ -52,5 +62,6 @@
                         Margin="12,0"/>
             </Grid>
         </Border>
+
     </Grid>
 </Window>
