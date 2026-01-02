@@ -1,7 +1,7 @@
 ﻿<Window x:Class="video.Views.PlayerView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Video"
+        Title="Video Player"
         Height="450"
         Width="800"
         MinHeight="300"
@@ -41,7 +41,7 @@
 
                 <ItemsControl.ItemsSource>
                     <x:Array Type="sys:String">
-                        <sys:String>File</sys:String>
+                        <sys:String>Open</sys:String>
                         <sys:String>View</sys:String>
                         <sys:String>Reproduction</sys:String>
                         <sys:String>Audio</sys:String>
@@ -55,7 +55,8 @@
 
         <!-- player -->
         <Grid Grid.Row="1" Background="Black">
-            <MediaElement x:Name="VideoPlayer"
+            <!--<Label x:Name="TitleLbl" Content="Media player" Padding="5,0,5,5" Margin="20" FontWeight="SemiBold" FontSize="16" BorderBrush="DodgerBlue" BorderThickness="0,0,0,2"/>-->
+            <MediaElement x:Name="Player"
                           LoadedBehavior="Manual"
                           UnloadedBehavior="Manual"
                           Stretch="Uniform"/>
@@ -77,24 +78,27 @@
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left"
                             Margin="0,0,8,0">
-                    <Button Width="70" Height="30">⏯</Button>
-                    <Button Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
-                    <Button Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
-                    <Button Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
+                    <Button Name="PlayPauseBtn" Click="OpenBtn_click" Width="70" Height="30">⏯</Button>
+                    <Button Name="BackBtn" Click="TestBtn_Click" Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
+                    <Button Name ="StopBtn" Click="TestBtn_Click" Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
+                    <Button Name ="ForwardBtn" Click="TestBtn_Click" Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
                 </StackPanel>
 
-                <Slider Grid.Column="1"
+                <Slider Name="ProgressSlider" 
+                        Grid.Column="1"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Stretch"
                         Margin="12,0"/>
 
-                <TextBlock Grid.Column="2"
+                <TextBlock Name="ProgressTimer"
+                           Grid.Column="2"
                            VerticalAlignment="Center"
                            Margin="8,0"
                            Foreground="Black"
                            Text="00:00 / 00:00"/>
 
-                <Slider Grid.Column="3"
+                <Slider Name="VolumeSlider" 
+                        Grid.Column="3"
                         Width="100"
                         VerticalAlignment="Center"
                         Margin="12,0"/>
