@@ -15,7 +15,7 @@ namespace video.Views
 
         // STATE
 
-        private bool isPLaying = false;
+        private bool isPlaying = false;
         private bool IsUserDraggingSlider = false;
 
         // SERVICES / HELPERS
@@ -30,6 +30,19 @@ namespace video.Views
             Title = "Open a media file",
             Filter = "Media Files (*.mp3,*.mp4)|*.mp3;*.mp4"
         };
+
+        private void OpenBtn_click(object sender, RoutedEventArgs e)
+        {
+            if (MediaOpenDialog.ShowDialog() == true)
+            {
+                Player.Source = new Uri(MediaOpenDialog.FileName);
+                //TitleLbl.Content = Path.GetFileName(MediaOpenDialog.FileName);
+
+                Player.Play();
+                isPlaying = true;
+            }
+        }
+
 
         // CONSTRUCTOR
 
@@ -47,19 +60,6 @@ namespace video.Views
         {
             MessageBox.Show("Clicked here!");
         }
-
-        private void OpenBtn_click(object sender, RoutedEventArgs e)
-        {
-            if (MediaOpenDialog.ShowDialog() == true)
-            {
-                Player.Source = new Uri(MediaOpenDialog.FileName);
-                //TitleLbl.Content = Path.GetFileName(MediaOpenDialog.FileName);
-
-                Player.Play();
-                isPLaying = true;
-            }
-        }
-
         // TIMER / PLAYER SYNC
 
         private void Timer_Tick(object? sender, EventArgs e)

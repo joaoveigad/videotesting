@@ -19,34 +19,24 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
-        <!-- header -->
+
         <Border Grid.Row="0" Background="LightGray">
-            <ItemsControl ItemsSource="{Binding MenuItems}"
-                  HorizontalAlignment="Stretch"
-                  VerticalAlignment="Center">
+            <Menu ItemsSource="{Binding MenuItems}"
+          Background="Transparent"
+          BorderThickness="0">
 
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <WrapPanel Orientation="Horizontal"/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+                <Menu.ItemContainerStyle>
+                    <Style TargetType="MenuItem">
+                        <Setter Property="Header" Value="{Binding Title}" />
+                        <Setter Property="ItemsSource" Value="{Binding Children}" />
+                        <Setter Property="Command" Value="{Binding Command}" />
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="Padding" Value="6,2" />
+                    </Style>
+                </Menu.ItemContainerStyle>
 
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button Background="Transparent"
-                        BorderThickness="0"
-                        Padding="4"
-                        Margin="3"
-                        Command="{Binding Command}">
-                            <TextBlock Text="{Binding Title}"
-                               FontSize="15"/>
-                        </Button>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-
-            </ItemsControl>
+            </Menu>
         </Border>
-
 
         <!-- player -->
         <Grid Grid.Row="1" Background="Black">

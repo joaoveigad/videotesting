@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,20 +15,36 @@ public class PlayerViewModel
     public PlayerViewModel()
     {
         MenuItems = new ObservableCollection<MenuItemViewModel>
-        {
-            new MenuItemViewModel("Open", new RelayCommand(Open)),
-            new MenuItemViewModel("View", new RelayCommand(View)),
-            new MenuItemViewModel("Audio", new RelayCommand(Audio)),
-            new MenuItemViewModel("Video", new RelayCommand(Video)),
-            new MenuItemViewModel("Subtitles", new RelayCommand(Subtitles)),
-            new MenuItemViewModel("Help", new RelayCommand(Help))
-        };
+    {
+        new MenuItemViewModel(
+            "File",
+            children: new ObservableCollection<MenuItemViewModel>
+            {
+                new MenuItemViewModel("Open", new RelayCommand(Open))
+            }
+        ),
+
+        new MenuItemViewModel("View", new RelayCommand(View)),
+        new MenuItemViewModel("Audio", new RelayCommand(Audio)),
+        new MenuItemViewModel("Video", new RelayCommand(Video)),
+        new MenuItemViewModel("Subtitles", new RelayCommand(Subtitles)),
+        new MenuItemViewModel("Help", new RelayCommand(Help))
+    };
     }
 
-    private void Open()
+
+    private void OpenBtn_click(object sender, RoutedEventArgs e)
     {
-        MessageBox.Show("Open clicked!");
+        if (MediaOpenDialog.ShowDialog() == true)
+        {
+            Player.Source = new Uri(MediaOpenDialog.FileName);
+            //TitleLbl.Content = Path.GetFileName(MediaOpenDialog.FileName);
+
+            Player.Play();
+            isPLaying = true;
+        }
     }
+
     private void View()
     {
         MessageBox.Show("View clicked!");
