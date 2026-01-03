@@ -36,6 +36,7 @@ namespace video.Views
         public PlayerView()
         {
             InitializeComponent();
+            DataContext = new PlayerViewModel();
 
             Timer.Tick += Timer_Tick;
             Timer.Start();

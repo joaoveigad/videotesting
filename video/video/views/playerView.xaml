@@ -19,9 +19,12 @@
         </Grid.RowDefinitions>
 
         <!-- header -->
+        <!-- header -->
         <Border Grid.Row="0" Background="LightGray">
-            <ItemsControl HorizontalAlignment="Stretch"
-                          VerticalAlignment="Center">
+            <ItemsControl ItemsSource="{Binding MenuItems}"
+                  HorizontalAlignment="Stretch"
+                  VerticalAlignment="Center">
+
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <WrapPanel Orientation="Horizontal"/>
@@ -31,27 +34,19 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Button Background="Transparent"
-                                BorderThickness="0"
-                                Padding="1.5"
-                                Margin="3">
-                            <TextBlock Text="{Binding}" FontSize="15"/>
+                        BorderThickness="0"
+                        Padding="4"
+                        Margin="3"
+                        Command="{Binding Command}">
+                            <TextBlock Text="{Binding Title}"
+                               FontSize="15"/>
                         </Button>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
 
-                <ItemsControl.ItemsSource>
-                    <x:Array Type="sys:String">
-                        <sys:String>Open</sys:String>
-                        <sys:String>View</sys:String>
-                        <sys:String>Reproduction</sys:String>
-                        <sys:String>Audio</sys:String>
-                        <sys:String>Video</sys:String>
-                        <sys:String>Subtitles</sys:String>
-                        <sys:String>Help</sys:String>
-                    </x:Array>
-                </ItemsControl.ItemsSource>
             </ItemsControl>
         </Border>
+
 
         <!-- player -->
         <Grid Grid.Row="1" Background="Black">
@@ -78,7 +73,7 @@
                             VerticalAlignment="Center"
                             HorizontalAlignment="Left"
                             Margin="0,0,8,0">
-                    <Button Name="PlayPauseBtn" Click="OpenBtn_click" Width="70" Height="30">⏯</Button>
+                    <Button Name="PlayPauseBtn" Click="TestBtn_Click" Width="70" Height="30">⏯</Button>
                     <Button Name="BackBtn" Click="TestBtn_Click" Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
                     <Button Name ="StopBtn" Click="TestBtn_Click" Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
                     <Button Name ="ForwardBtn" Click="TestBtn_Click" Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
