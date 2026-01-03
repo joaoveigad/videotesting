@@ -1,5 +1,10 @@
 # Todos
 
+## Notas:
+- Seguir com o desenvolvimento das funções de arquivos e misc dentro das novas funções no view model
+
+- Fazer a refatoração do código base para view model.
+
 ## Template e Layout
 - [🟢] Template inicial (Header, Player e Controles)  
 - [🟢] Layout responsivo do player e da barra de navegação  
