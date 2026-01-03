@@ -1,12 +1,12 @@
 # Todos
 
 ## Template e Layout
-- [x] Template inicial (Header, Player e Controles)  
-- [x] Layout responsivo do player e da barra de navegação  
-- [x] Ajuste de alinhamento e espaçamento dos botões  
+- [🟢] Template inicial (Header, Player e Controles)  
+- [🟢] Layout responsivo do player e da barra de navegação  
+- [🟢] Ajuste de alinhamento e espaçamento dos botões  
 
 ## Funcionalidades de Vídeo
-- [ ] File Search
+- [🟢] File Search
 - [ ] Play / Pause  
 - [ ] Stop  
 - [ ] Next / Previous frame (ou vídeo)  
