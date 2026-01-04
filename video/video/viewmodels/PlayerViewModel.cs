@@ -18,6 +18,7 @@ public class PlayerViewModel
     private readonly IMediaPlayerService _mediaPlayerService;
 
     public ICommand PlayPauseCommand { get; }
+    public ICommand StopCommand { get; }
 
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
@@ -27,6 +28,8 @@ public class PlayerViewModel
     {
         _mediaDialogService = mediaDialogService;
         _mediaPlayerService = mediaPlayerService;
+
+        StopCommand = new RelayCommand(Stop);
         PlayPauseCommand = new RelayCommand(PlayPause);
 
         MenuItems = new ObservableCollection<MenuItemViewModel>
@@ -49,7 +52,10 @@ public class PlayerViewModel
 
 
 
-
+    private void Stop()
+    {
+        _mediaPlayerService.Stop();
+    }
     private void PlayPause()
     {
         _mediaPlayerService.PlayPause();

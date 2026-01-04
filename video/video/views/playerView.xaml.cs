@@ -15,8 +15,6 @@ namespace video.Views
     {
 
         // STATE
-
-        private bool isPlaying = false;
         private bool IsUserDraggingSlider = false;
 
         // SERVICES / HELPERS
