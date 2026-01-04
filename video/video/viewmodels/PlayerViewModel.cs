@@ -1,19 +1,30 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-
 using System.Linq;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
+using video.services;
+using video.Services;
+using video.Views;
 
 public class PlayerViewModel
+
 {
+    private readonly IMediaDialogService _mediaDialogService;
+    private readonly IMediaPlayerService _mediaPlayerService;
+
+
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
 
-    public PlayerViewModel()
+    public PlayerViewModel(IMediaDialogService mediaDialogService, IMediaPlayerService mediaPlayerService)
+
     {
+
+        _mediaDialogService = mediaDialogService;
+        _mediaPlayerService = mediaPlayerService;
         MenuItems = new ObservableCollection<MenuItemViewModel>
     {
         new MenuItemViewModel(
@@ -33,16 +44,12 @@ public class PlayerViewModel
     }
 
 
-    private void OpenBtn_click(object sender, RoutedEventArgs e)
+    private void Open()
     {
-        if (MediaOpenDialog.ShowDialog() == true)
-        {
-            Player.Source = new Uri(MediaOpenDialog.FileName);
-            //TitleLbl.Content = Path.GetFileName(MediaOpenDialog.FileName);
-
-            Player.Play();
-            isPLaying = true;
-        }
+        var path = _mediaDialogService.OpenMediaFileDialog();
+        _mediaPlayerService.Load(path);
+        _mediaPlayerService.Play();
+        
     }
 
     private void View()

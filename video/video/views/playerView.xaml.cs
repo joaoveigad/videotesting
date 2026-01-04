@@ -1,9 +1,10 @@
-﻿using System;
-using System.Windows;
+﻿using Microsoft.Win32;
+using System;
 using System.IO;
-using System.Windows.Threading;
 using System.Text;
-using Microsoft.Win32;
+using System.Windows;
+using System.Windows.Threading;
+using video.Services;
 
 namespace video.Views
 {
@@ -25,31 +26,15 @@ namespace video.Views
             Interval = TimeSpan.FromSeconds(0.1)
         };
 
-        private readonly OpenFileDialog MediaOpenDialog = new()
-        {
-            Title = "Open a media file",
-            Filter = "Media Files (*.mp3,*.mp4)|*.mp3;*.mp4"
-        };
-
-        private void OpenBtn_click(object sender, RoutedEventArgs e)
-        {
-            if (MediaOpenDialog.ShowDialog() == true)
-            {
-                Player.Source = new Uri(MediaOpenDialog.FileName);
-                //TitleLbl.Content = Path.GetFileName(MediaOpenDialog.FileName);
-
-                Player.Play();
-                isPlaying = true;
-            }
-        }
-
-
         // CONSTRUCTOR
 
         public PlayerView()
         {
             InitializeComponent();
-            DataContext = new PlayerViewModel();
+            var dialogService = new MediaDialogService();
+            var playerService = new MediaPlayerService(Player);
+
+            DataContext = new PlayerViewModel(dialogService,playerService);
 
             Timer.Tick += Timer_Tick;
             Timer.Start();
