@@ -36,6 +36,7 @@ namespace video.Services
         public void Stop()
         {
             _player.Stop();
+            _player.Source = null;
             IsPlaying = false;
         }
     }
