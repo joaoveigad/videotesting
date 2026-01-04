@@ -1,10 +1,9 @@
 # Todos
 
 ## Notas:
-- ~Seguir com o desenvolvimento das funções de arquivos e misc dentro das novas funções no view model~
-- Fazer menus inferiores no MVVM e atribuir as funções já programadas a eles.
+- Adicionar função de adicionar múltiplos arquivos + queue. Botões de back e forward após adicionar funcionalidade da fila.
+- Fazer botão de stop remover o arquivo carregado.
 
-- Fazer a refatoração do código base para view model.
 
 ## Template e Layout
 - [🟢] Template inicial (Header, Player e Controles)  
@@ -14,8 +13,8 @@
 ## Funcionalidades de Vídeo
 - [🟢] File Search  
 - [🟢] Play  
-- [🔴] Pause  
-- [🔴] Stop  
+- [🟢] Pause  
+- [🟢] Stop  
 - [🔴] Next / Previous frame (ou vídeo)  
 - [🔴] Seek / Slider de progresso  
 - [🔴] Volume / Slider de volume  
