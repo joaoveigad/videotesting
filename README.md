@@ -1,7 +1,8 @@
 # Todos
 
 ## Notas:
-- Seguir com o desenvolvimento das funções de arquivos e misc dentro das novas funções no view model
+- ~Seguir com o desenvolvimento das funções de arquivos e misc dentro das novas funções no view model~
+- Fazer menus inferiores no MVVM e atribuir as funções já programadas a eles.
 
 - Fazer a refatoração do código base para view model.
 
