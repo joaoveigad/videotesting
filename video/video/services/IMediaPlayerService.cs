@@ -2,8 +2,7 @@
 {
     public interface IMediaPlayerService
     {
-        void Play();
-        void Pause();
+        void PlayPause();
         void Stop();
         void Load(string path);
         bool IsPlaying { get; }

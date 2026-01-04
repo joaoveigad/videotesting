@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using video.services;
 using video.Services;
+using System.Windows.Input;
 using video.Views;
 
 public class PlayerViewModel
@@ -16,15 +17,18 @@ public class PlayerViewModel
     private readonly IMediaDialogService _mediaDialogService;
     private readonly IMediaPlayerService _mediaPlayerService;
 
+    public ICommand PlayPauseCommand { get; }
 
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
+
 
     public PlayerViewModel(IMediaDialogService mediaDialogService, IMediaPlayerService mediaPlayerService)
 
     {
-
         _mediaDialogService = mediaDialogService;
         _mediaPlayerService = mediaPlayerService;
+        PlayPauseCommand = new RelayCommand(PlayPause);
+
         MenuItems = new ObservableCollection<MenuItemViewModel>
     {
         new MenuItemViewModel(
@@ -44,14 +48,19 @@ public class PlayerViewModel
     }
 
 
+
+
+    private void PlayPause()
+    {
+        _mediaPlayerService.PlayPause();
+    }
     private void Open()
     {
         var path = _mediaDialogService.OpenMediaFileDialog();
         _mediaPlayerService.Load(path);
-        _mediaPlayerService.Play();
+        _mediaPlayerService.PlayPause();
         
     }
-
     private void View()
     {
         MessageBox.Show("View clicked!");

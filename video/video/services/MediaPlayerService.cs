@@ -20,18 +20,19 @@ namespace video.Services
             _player.Source = new Uri(path);
         }
 
-        public void Play()
-        {
-            _player.Play();
-            IsPlaying = true;
+        public void PlayPause()
+        {   
+            if(IsPlaying)
+            {
+                _player.Pause();
+                IsPlaying = false;
+            }
+            else
+            {
+                _player.Play();
+                IsPlaying = true;
+            }
         }
-
-        public void Pause()
-        {
-            _player.Pause();
-            IsPlaying = false;
-        }
-
         public void Stop()
         {
             _player.Stop();
