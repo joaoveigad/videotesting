@@ -2,7 +2,7 @@
 
 ## Notas:
 - Adicionar função de adicionar múltiplos arquivos + queue. Botões de back e forward após adicionar funcionalidade da fila.
-- Fazer botão de stop remover o arquivo carregado.
+- ~ Fazer botão de stop remover o arquivo carregado ~
 
 
 ## Template e Layout
