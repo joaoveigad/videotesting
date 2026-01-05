@@ -63,9 +63,11 @@ public class PlayerViewModel
     private void Open()
     {
         var path = _mediaDialogService.OpenMediaFileDialog();
-        _mediaPlayerService.Load(path);
-        _mediaPlayerService.PlayPause();
-        
+        if (!string.IsNullOrEmpty(path))
+        {
+            _mediaPlayerService.Load(path);
+            _mediaPlayerService.PlayPause();
+        }
     }
     private void View()
     {
