@@ -9,6 +9,7 @@ namespace video.Services
     public interface IMediaDialogService
     {
         string? OpenMediaFileDialog();
+        IEnumerable<string> OpenManyMediaFIleDialog();
 
     }
 }

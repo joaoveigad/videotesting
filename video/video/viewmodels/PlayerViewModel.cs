@@ -21,24 +21,30 @@ public class PlayerViewModel
     public ICommand StopCommand { get; }
 
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
+    public ObservableCollection<string> Playlist { get; } = new();
+    private int _currentIndex = -1;
 
 
     public PlayerViewModel(IMediaDialogService mediaDialogService, IMediaPlayerService mediaPlayerService)
 
     {
+
+        // Dependency Injection
         _mediaDialogService = mediaDialogService;
         _mediaPlayerService = mediaPlayerService;
 
         StopCommand = new RelayCommand(Stop);
         PlayPauseCommand = new RelayCommand(PlayPause);
 
+        // Header Menu
         MenuItems = new ObservableCollection<MenuItemViewModel>
     {
         new MenuItemViewModel(
             "File",
             children: new ObservableCollection<MenuItemViewModel>
             {
-                new MenuItemViewModel("Open", new RelayCommand(Open))
+                new MenuItemViewModel("Open", new RelayCommand(Open)),
+                new MenuItemViewModel("Open Many", new RelayCommand(openMany))
             }
         ),
 
@@ -50,16 +56,7 @@ public class PlayerViewModel
     };
     }
 
-
-
-    private void Stop()
-    {
-        _mediaPlayerService.Stop();
-    }
-    private void PlayPause()
-    {
-        _mediaPlayerService.PlayPause();
-    }
+    // File selection methods
     private void Open()
     {
         var path = _mediaDialogService.OpenMediaFileDialog();
@@ -69,6 +66,43 @@ public class PlayerViewModel
             _mediaPlayerService.PlayPause();
         }
     }
+
+    private void openMany()
+    {
+        var paths = _mediaDialogService.OpenManyMediaFIleDialog();
+        Playlist.Clear();
+
+        foreach (var path in paths)
+        {
+            Playlist.Add(path);
+        }
+
+        if (Playlist.Count == 0)
+        {
+            return;
+        }
+
+        _currentIndex = 0;
+        _mediaPlayerService.Load(Playlist[_currentIndex]); 
+        _mediaPlayerService.PlayPause();
+
+    }
+
+    // Playback methods
+
+    private void Stop()
+    {
+        _mediaPlayerService.Stop();
+    }
+
+
+    private void PlayPause()
+    {
+        _mediaPlayerService.PlayPause();
+    }
+
+    // Test Menu Item Methods
+
     private void View()
     {
         MessageBox.Show("View clicked!");

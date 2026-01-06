@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,14 @@ namespace video.Services
         public string? OpenMediaFileDialog()
         {
             return OpenMediaFile();
+        }
+
+        public IEnumerable<string> OpenManyMediaFIleDialog()
+        {
+            _dialog.Multiselect = true;
+            return _dialog.ShowDialog() == true
+                ? _dialog.FileNames
+                : Array.Empty<string>();
         }
     }
 }
