@@ -1,8 +1,4 @@
-﻿using Microsoft.Win32;
-using System;
-using System.IO;
-using System.Text;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Threading;
 using video.Services;
 
@@ -38,11 +34,6 @@ namespace video.Views
             Timer.Start();
         }
 
-        // UI EVENTS
-        private void TestBtn_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Clicked here!");
-        }
         // TIMER / PLAYER SYNC
 
         private void Timer_Tick(object? sender, EventArgs e)
