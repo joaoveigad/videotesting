@@ -1,11 +1,11 @@
 ﻿using System.Windows.Input;
 
-public class RelayCommand : ICommand 
+public class RelayCommand : ICommand
 {
     private readonly Action _execute;
 
-    public RelayCommand(Action execute)  
-    { 
+    public RelayCommand(Action execute)
+    {
         _execute = execute;
     }
     public bool CanExecute(object? parameter) => true;
