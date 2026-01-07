@@ -16,7 +16,7 @@
 - [🟢] Play  
 - [🟢] Pause  
 - [🟢] Stop  
-- [🔴] Next / Previous frame (ou vídeo)  
+- [🟢] Next / Previous frame (ou vídeo)  
 - [🔴] Seek / Slider de progresso  
 - [🔴] Volume / Slider de volume  
 - [🔴] Ajuste de tela (Fullscreen / Normal)  
