@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Media;
 using video.services;
 using video.Services;
 using System.Windows.Input;
-using video.Views;
+
 
 public class PlayerViewModel
 
@@ -18,7 +12,9 @@ public class PlayerViewModel
     private readonly IMediaPlayerService _mediaPlayerService;
 
     public ICommand PlayPauseCommand { get; }
+    public ICommand NextCommand { get; }
     public ICommand StopCommand { get; }
+    public ICommand PreviousCommand { get; }
 
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
     public ObservableCollection<string> Playlist { get; } = new();
@@ -35,6 +31,8 @@ public class PlayerViewModel
 
         StopCommand = new RelayCommand(Stop);
         PlayPauseCommand = new RelayCommand(PlayPause);
+        NextCommand = new RelayCommand(NextInPlaylist);
+        PreviousCommand = new RelayCommand(PreviousInPlaylist);
 
         // Header Menu
         MenuItems = new ObservableCollection<MenuItemViewModel>
@@ -44,7 +42,7 @@ public class PlayerViewModel
             children: new ObservableCollection<MenuItemViewModel>
             {
                 new MenuItemViewModel("Open", new RelayCommand(Open)),
-                new MenuItemViewModel("Open Many", new RelayCommand(openMany))
+                new MenuItemViewModel("Open many", new RelayCommand(openMany))
             }
         ),
 
@@ -88,6 +86,7 @@ public class PlayerViewModel
 
     }
 
+
     // Playback methods
 
     private void Stop()
@@ -99,6 +98,26 @@ public class PlayerViewModel
     private void PlayPause()
     {
         _mediaPlayerService.PlayPause();
+    }
+
+    private void NextInPlaylist()
+    {
+        if (Playlist.Count == 0)
+        {
+            return;
+        }
+        _currentIndex = (_currentIndex + 1) % Playlist.Count;
+        _mediaPlayerService.Load(Playlist[_currentIndex]);
+    }
+
+    private void PreviousInPlaylist()
+    {
+        if (Playlist.Count == 0)
+        {
+            return;
+        }
+        _currentIndex = (_currentIndex - 1 + Playlist.Count) % Playlist.Count;
+        _mediaPlayerService.Load(Playlist[_currentIndex]);
     }
 
     // Test Menu Item Methods
