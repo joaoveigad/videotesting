@@ -1,8 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using video.services;
-using video.Services;
 using System.Windows.Input;
+using video.services.Interfaces;
 
 
 public class PlayerViewModel

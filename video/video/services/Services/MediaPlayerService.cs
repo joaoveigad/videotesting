@@ -1,7 +1,8 @@
 ﻿using System.Windows.Controls;
-using video.services;
+using video.services.Interfaces;
+using video.Services;
 
-namespace video.Services
+namespace video.services
 {
     internal class MediaPlayerService : IMediaPlayerService
     {

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
+using video.services.Interfaces;
 
-namespace video.Services
+namespace video.services.Services
 {
     public class MediaDialogService : IMediaDialogService
     {

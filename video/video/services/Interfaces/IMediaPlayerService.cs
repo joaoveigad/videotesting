@@ -1,4 +1,4 @@
-﻿namespace video.services
+﻿namespace video.services.Interfaces
 {
     public interface IMediaPlayerService
     {
