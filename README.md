@@ -1,9 +1,8 @@
 # Todos
 
 ## Próximo:
-- Adicionar timer dinâmico e volume, e interação com os sliders.
-- ~Adicionar função de adicionar múltiplos arquivos + queue. Botões de back e forward após adicionar funcionalidade da fila.~
-- ~Fazer botão de stop remover o arquivo carregado~
+- Se é o ultimo da playlist, stop ao finalizar/skippar
+- Slider.
 
 
 ## Template e Layout
