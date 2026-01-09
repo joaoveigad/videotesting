@@ -72,7 +72,7 @@
                            VerticalAlignment="Center"
                            Margin="8,0"
                            Foreground="Black"
-                           Text="00:00/00:00"/>
+                           Text="{Binding TimeText}"/>
 
                 <Slider Name="VolumeSlider" 
                         Grid.Column="3"

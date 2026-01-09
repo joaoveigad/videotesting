@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using video.services.Interfaces;
 
 namespace video.services
@@ -9,19 +10,26 @@ namespace video.services
 
         public bool IsPlaying { get; private set; }
 
-        public MediaPlayerService(MediaElement player) 
+        public TimeSpan Position => _player.Position;
+
+        public MediaPlayerService(MediaElement player)
         {
             _player = player;
+
+            _player.LoadedBehavior = MediaState.Manual;
+            _player.UnloadedBehavior = MediaState.Manual;
         }
 
         public void Load(string path)
         {
+            IsPlaying = false;
+            _player.Stop();
             _player.Source = new Uri(path);
         }
 
         public void PlayPause()
-        {   
-            if(IsPlaying)
+        {
+            if (IsPlaying)
             {
                 _player.Pause();
                 IsPlaying = false;
@@ -32,10 +40,10 @@ namespace video.services
                 IsPlaying = true;
             }
         }
+
         public void Stop()
         {
             _player.Stop();
-            _player.Source = null;
             IsPlaying = false;
         }
     }

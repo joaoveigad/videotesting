@@ -1,4 +1,5 @@
-﻿namespace video.services.Interfaces
+﻿
+namespace video.services.Interfaces
 {
     public interface IMediaPlayerService
     {
@@ -6,5 +7,6 @@
         void Stop();
         void Load(string path);
         bool IsPlaying { get; }
+        TimeSpan Position { get; }
     }
 }
