@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
 using video.services.Interfaces;
-using video.Services;
 
 namespace video.services
 {
@@ -10,7 +9,7 @@ namespace video.services
 
         public bool IsPlaying { get; private set; }
 
-        public MediaPlayerService(MediaElement player)
+        public MediaPlayerService(MediaElement player) 
         {
             _player = player;
         }

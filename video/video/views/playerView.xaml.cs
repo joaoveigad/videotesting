@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
-using video.Services;
+using video.services;
+using video.services.Services;
 
 namespace video.Views
 {
@@ -27,8 +28,9 @@ namespace video.Views
             InitializeComponent();
             var dialogService = new MediaDialogService();
             var playerService = new MediaPlayerService(Player);
+            var metadataService = new VideoMetadataService();
 
-            DataContext = new PlayerViewModel(dialogService,playerService);
+            DataContext = new PlayerViewModel(dialogService,playerService, metadataService);
 
             Timer.Tick += Timer_Tick;
             Timer.Start();

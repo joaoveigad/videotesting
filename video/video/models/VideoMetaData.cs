@@ -1,6 +1,6 @@
 ﻿namespace video.models
 {
-    internal class VideoMetaData
+    public class VideoMetaData
     {
         public TimeSpan Duration { get; set; }
         public int Width { get; set; }

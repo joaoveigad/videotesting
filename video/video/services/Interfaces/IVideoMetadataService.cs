@@ -1,7 +1,7 @@
 ﻿using video.models;
 namespace video.services.Interfaces
 {
-    internal interface IVideoMetadataService
+    public interface IVideoMetadataService
     {
         VideoMetaData Get(string path);
     }

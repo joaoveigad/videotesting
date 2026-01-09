@@ -11,19 +11,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <!-- header -->
             <RowDefinition Height="*"/>
-            <!-- player -->
             <RowDefinition Height="Auto"/>
-            <!-- navigation -->
         </Grid.RowDefinitions>
-
-        <!-- header -->
 
         <Border Grid.Row="0" Background="LightGray">
             <Menu ItemsSource="{Binding MenuItems}"
-          Background="Transparent"
-          BorderThickness="0">
+                  Background="Transparent"
+                  BorderThickness="0">
 
                 <Menu.ItemContainerStyle>
                     <Style TargetType="MenuItem">
@@ -38,16 +33,13 @@
             </Menu>
         </Border>
 
-        <!-- player -->
         <Grid Grid.Row="1" Background="Black">
-            <!--<Label x:Name="TitleLbl" Content="Media player" Padding="5,0,5,5" Margin="20" FontWeight="SemiBold" FontSize="16" BorderBrush="DodgerBlue" BorderThickness="0,0,0,2"/>-->
             <MediaElement x:Name="Player"
                           LoadedBehavior="Manual"
                           UnloadedBehavior="Manual"
                           Stretch="Uniform"/>
         </Grid>
 
-        <!-- navigation -->
         <Border Grid.Row="2"
                 Background="LightGray"
                 Padding="4.5">
@@ -65,8 +57,8 @@
                             Margin="0,0,8,0">
                     <Button Name="PlayPauseBtn" Command="{Binding PlayPauseCommand}" Width="70" Height="30">⏯</Button>
                     <Button Name="BackBtn" Command="{Binding PreviousCommand}" Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
-                    <Button Name ="StopBtn" Command="{Binding StopCommand}" Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
-                    <Button Name ="ForwardBtn" Command="{Binding NextCommand}" Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
+                    <Button Name="StopBtn" Command="{Binding StopCommand}" Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
+                    <Button Name="ForwardBtn" Command="{Binding NextCommand}" Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
                 </StackPanel>
 
                 <Slider Name="ProgressSlider" 
@@ -80,7 +72,7 @@
                            VerticalAlignment="Center"
                            Margin="8,0"
                            Foreground="Black"
-                           Text="00:00 / 00:00"/>
+                           Text="00:00/00:00"/>
 
                 <Slider Name="VolumeSlider" 
                         Grid.Column="3"
