@@ -12,10 +12,12 @@ namespace video.services
 
         public TimeSpan Position => _player.Position;
 
+        public event EventHandler? MediaEnded;
+
         public MediaPlayerService(MediaElement player)
         {
             _player = player;
-
+            _player.MediaEnded += (s, e) => MediaEnded?.Invoke(this, EventArgs.Empty);
             _player.LoadedBehavior = MediaState.Manual;
             _player.UnloadedBehavior = MediaState.Manual;
         }

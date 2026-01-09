@@ -8,5 +8,7 @@ namespace video.services.Interfaces
         void Load(string path);
         bool IsPlaying { get; }
         TimeSpan Position { get; }
+
+        event EventHandler MediaEnded;
     }
 }

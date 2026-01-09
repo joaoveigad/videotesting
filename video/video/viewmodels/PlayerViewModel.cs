@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using video.models;
 using video.services.Interfaces;
@@ -62,6 +63,7 @@ public class PlayerViewModel : ViewModelBase
     {
         _mediaDialogService = mediaDialogService;
         _mediaPlayerService = mediaPlayerService;
+        _mediaPlayerService.MediaEnded += OnMediaEnded;
         _metadataService = videoMetadataService;
 
         _timer = new DispatcherTimer
@@ -102,6 +104,9 @@ public class PlayerViewModel : ViewModelBase
             return;
 
         CurrentPosition = _mediaPlayerService.Position;
+
+        // FIX: definir o mediainded na interface e no service e colocar aqui uma condicional para verificar se chegou ao fim do video
+
     }
 
     // File Operations
@@ -122,6 +127,11 @@ public class PlayerViewModel : ViewModelBase
 
         _timer.Start();
         _currentFile = path;
+    }
+
+    private void OnMediaEnded(object? sender, EventArgs e)
+    {
+        NextInPlaylist();
     }
 
     private void OpenMany()
