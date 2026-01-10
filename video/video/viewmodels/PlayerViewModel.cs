@@ -105,7 +105,12 @@ public class PlayerViewModel : ViewModelBase
 
         CurrentPosition = _mediaPlayerService.Position;
 
-        // FIX: definir o mediainded na interface e no service e colocar aqui uma condicional para verificar se chegou ao fim do video
+        // lógica para fim do vídeo
+        if (_mediaPlayerService.Position >= Duration)
+        {
+            OnMediaEnded(this, EventArgs.Empty);
+            NextCommand.Execute(null);
+        }
 
     }
 
@@ -187,8 +192,19 @@ public class PlayerViewModel : ViewModelBase
         if (Playlist.Count == 0)
             return;
 
+
         _currentIndex = (_currentIndex + 1) % Playlist.Count;
         LoadFromPlaylist();
+
+        //Lógica para fim da playlist
+        if(_currentIndex == 0)
+        {
+            _mediaPlayerService.Stop();
+            _timer.Stop();
+            CurrentPosition = TimeSpan.Zero;
+        }
+
+
     }
 
     private void PreviousInPlaylist()
