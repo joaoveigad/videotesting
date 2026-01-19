@@ -109,6 +109,7 @@ public class PlayerViewModel : ViewModelBase
         {
             OnMediaEnded(this, EventArgs.Empty);
             NextCommand.Execute(null);
+            _mediaPlayerService.Stop();
         }
 
     }
@@ -134,8 +135,18 @@ public class PlayerViewModel : ViewModelBase
     }
 
     private void OnMediaEnded(object? sender, EventArgs e)
-    {
-        NextInPlaylist();
+    {   
+        if(Playlist.Count == 0) { 
+            _mediaPlayerService.Stop();
+            _timer.Stop();
+            CurrentPosition = TimeSpan.Zero;
+            return;
+        }
+        else
+        {
+            NextInPlaylist();
+        }
+
     }
 
     private void OpenMany()
@@ -191,7 +202,6 @@ public class PlayerViewModel : ViewModelBase
         if (Playlist.Count == 0)
             return;
 
-
         _currentIndex = (_currentIndex + 1) % Playlist.Count;
         LoadFromPlaylist();
 
@@ -202,8 +212,6 @@ public class PlayerViewModel : ViewModelBase
             _timer.Stop();
             CurrentPosition = TimeSpan.Zero;
         }
-
-
     }
 
     private void PreviousInPlaylist()
