@@ -1,7 +1,6 @@
 # Todos
 
 ## Próximo:
-- Se é o ultimo da playlist, stop ao finalizar/skippar
 - Single open dá clear na playlist
 - Botão de adicionar à playlist
 - Ver playlist
