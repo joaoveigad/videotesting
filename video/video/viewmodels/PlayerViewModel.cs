@@ -136,17 +136,18 @@ public class PlayerViewModel : ViewModelBase
 
     private void OnMediaEnded(object? sender, EventArgs e)
     {   
-        if(Playlist.Count == 0) { 
+        if(Playlist.Count == 0) 
+        { 
             _mediaPlayerService.Stop();
             _timer.Stop();
             CurrentPosition = TimeSpan.Zero;
             return;
         }
+
         else
         {
             NextInPlaylist();
         }
-
     }
 
     private void OpenMany()
