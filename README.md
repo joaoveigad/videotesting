@@ -2,7 +2,10 @@
 
 ## Próximo:
 - Se é o ultimo da playlist, stop ao finalizar/skippar
-- Slider.
+- Single open dá clear na playlist
+- Botão de adicionar à playlist
+- Ver playlist
+- Slider
 
 
 ## Template e Layout
