@@ -122,6 +122,9 @@ public class PlayerViewModel : ViewModelBase
         if (string.IsNullOrEmpty(path))
             return;
 
+        if (Playlist.Count > 0) //evitar interações estranhas e playlists indesejadas
+            Playlist.Clear();
+
         var metadata = _metadataService.Get(path);
 
         Duration = metadata.Duration;
@@ -134,21 +137,7 @@ public class PlayerViewModel : ViewModelBase
         _currentFile = path;
     }
 
-    private void OnMediaEnded(object? sender, EventArgs e)
-    {   
-        if(Playlist.Count == 0) 
-        { 
-            _mediaPlayerService.Stop();
-            _timer.Stop();
-            CurrentPosition = TimeSpan.Zero;
-            return;
-        }
 
-        else
-        {
-            NextInPlaylist();
-        }
-    }
 
     private void OpenMany()
     {
@@ -235,6 +224,22 @@ public class PlayerViewModel : ViewModelBase
         _mediaPlayerService.Load(_currentFile);
         _mediaPlayerService.PlayPause();
         _timer.Start();
+    }
+
+    private void OnMediaEnded(object? sender, EventArgs e)
+    {
+        if (Playlist.Count == 0)
+        {
+            _mediaPlayerService.Stop();
+            _timer.Stop();
+            CurrentPosition = TimeSpan.Zero;
+            return;
+        }
+
+        else
+        {
+            NextInPlaylist();
+        }
     }
 
     // Menu Item Actions

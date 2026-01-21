@@ -1,7 +1,6 @@
 # Todos
 
 ## Próximo:
-- Single open dá clear na playlist
 - Botão de adicionar à playlist
 - Ver playlist
 - Slider
