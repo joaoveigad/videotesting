@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -286,7 +287,7 @@ public class PlayerViewModel : ViewModelBase
         }
 
         // Converte a playlist para string
-        string playlistText = string.Join(Environment.NewLine, Playlist);
+        string playlistText = string.Join(Environment.NewLine, Playlist.Select(p => Path.GetFileNameWithoutExtension(p)));
         MessageBox.Show(playlistText);
     }
 

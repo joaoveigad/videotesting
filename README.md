@@ -1,6 +1,7 @@
 # Todos
 
 ## Próximo:
+- Botão de back na playlist verifica se passaram-se X segundos, se sim, retorna ao começo. Se não, retorna ao vídeo anterior.
 - Slider de tempo
 - Slider de volume (e o volume!)
 - Fullscreen
