@@ -84,10 +84,17 @@ public class PlayerViewModel : ViewModelBase
                 children: new ObservableCollection<MenuItemViewModel>
                 {
                     new MenuItemViewModel("Open", new RelayCommand(Open)),
-                    new MenuItemViewModel("Open many", new RelayCommand(OpenMany))
+                    new MenuItemViewModel("Open many", new RelayCommand(OpenMany)),
+                    new MenuItemViewModel("Add to list", new RelayCommand(addToPlaylist))
                 }
             ),
-            new MenuItemViewModel("View", new RelayCommand(View)),
+            new MenuItemViewModel("View",
+            children: new ObservableCollection<MenuItemViewModel>
+            {
+                new MenuItemViewModel("File details", new RelayCommand(ViewFileData)),
+                new MenuItemViewModel("Playlist details", new RelayCommand(ViewPlaylist))
+            }
+            ),
             new MenuItemViewModel("Audio", new RelayCommand(Audio)),
             new MenuItemViewModel("Video", new RelayCommand(Video)),
             new MenuItemViewModel("Subtitles", new RelayCommand(Subtitles)),
@@ -118,12 +125,12 @@ public class PlayerViewModel : ViewModelBase
 
     private void Open()
     {
+        if (Playlist.Count > 0) //evitar interações estranhas e playlists indesejadas
+            Playlist.Clear();
+
         var path = _mediaDialogService.OpenMediaFileDialog();
         if (string.IsNullOrEmpty(path))
             return;
-
-        if (Playlist.Count > 0) //evitar interações estranhas e playlists indesejadas
-            Playlist.Clear();
 
         var metadata = _metadataService.Get(path);
 
@@ -136,8 +143,6 @@ public class PlayerViewModel : ViewModelBase
         _timer.Start();
         _currentFile = path;
     }
-
-
 
     private void OpenMany()
     {
@@ -160,6 +165,20 @@ public class PlayerViewModel : ViewModelBase
         _mediaPlayerService.Load(_currentFile);
         _mediaPlayerService.PlayPause();
         _timer.Start();
+    }
+
+    private void addToPlaylist()
+    {
+        if (_currentIndex == -1 && !string.IsNullOrEmpty(_currentFile))
+            Playlist.Clear();
+            Playlist.Add(_currentFile);
+            _currentIndex = 0;
+
+        var path = _mediaDialogService.OpenMediaFileDialog();
+        if (string.IsNullOrEmpty(path))
+            return;
+        Playlist.Add(path);
+        var metadata = _metadataService.Get(path);
     }
 
     private VideoMetaData ShowMetadata(string path)
@@ -243,7 +262,7 @@ public class PlayerViewModel : ViewModelBase
     }
 
     // Menu Item Actions
-    private void View()
+    private void ViewFileData()
     {
         if (!_mediaPlayerService.IsPlaying)
         {
@@ -256,6 +275,19 @@ public class PlayerViewModel : ViewModelBase
             $"Title: {meta.Title}\n" +
             $"Duration: {meta.Duration:hh\\:mm\\:ss}"
         );
+    }
+
+    private void ViewPlaylist()
+    {
+        if (!_mediaPlayerService.IsPlaying || Playlist.Count <= 0)
+        {
+            MessageBox.Show("There is no playlist loaded.");
+            return;
+        }
+
+        // Converte a playlist para string
+        string playlistText = string.Join(Environment.NewLine, Playlist);
+        MessageBox.Show(playlistText);
     }
 
     private void Audio() => MessageBox.Show("Audio clicked!");

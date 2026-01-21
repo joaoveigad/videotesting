@@ -1,9 +1,9 @@
 # Todos
 
 ## Próximo:
-- Botão de adicionar à playlist
-- Ver playlist
-- Slider
+- Slider de tempo
+- Slider de volume (e o volume!)
+- Fullscreen
 
 
 ## Template e Layout
