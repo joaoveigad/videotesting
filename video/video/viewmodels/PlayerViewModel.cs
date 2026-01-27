@@ -235,12 +235,25 @@ public class PlayerViewModel : ViewModelBase
 
     private void PreviousInPlaylist()
     {
+        if (_mediaPlayerService.Position > TimeSpan.FromSeconds(3))
+        {
+            _mediaPlayerService.Seek(TimeSpan.Zero);
+            return;
+        }
+
         if (Playlist.Count == 0)
             return;
 
-        _currentIndex = (_currentIndex - 1 + Playlist.Count) % Playlist.Count;
+        if (_currentIndex == 0)
+        {
+            LoadFromPlaylist();
+            return;
+        }
+
+        _currentIndex--;
         LoadFromPlaylist();
     }
+
 
     private void LoadFromPlaylist()
     {
