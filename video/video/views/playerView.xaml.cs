@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Threading;
 using video.services;
@@ -34,17 +35,26 @@ namespace video.Views
             _timer.Tick += Timer_Tick;
             _timer.Start();
         }
+        private bool _wasPlayingBeforeDrag;
+     
 
         private void ProgressSlider_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            _wasPlayingBeforeDrag = VM.IsPlaying;
             VM.IsUserDraggingSlider = true;
+            if (_wasPlayingBeforeDrag)
+                VM.PlayPauseCommand.Execute(null);
         }
 
         private void ProgressSlider_MouseUp(object sender, MouseButtonEventArgs e)
         {
             VM.IsUserDraggingSlider = false;
             VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
+
+            if (_wasPlayingBeforeDrag)
+                VM.PlayPauseCommand.Execute(null);
         }
+
 
         private void Timer_Tick(object? sender, EventArgs e)
         {

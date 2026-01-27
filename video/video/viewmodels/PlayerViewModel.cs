@@ -25,7 +25,8 @@ public class PlayerViewModel : ViewModelBase
 
     private int _currentIndex = -1;
     private string _currentFile = "";
-    public bool IsUserDraggingSlider { get; set; }
+    public bool IsUserDraggingSlider { get; set; } // Variáveis para controlar o slider no code-behind do xaml
+    public bool IsPlaying => _mediaPlayerService.IsPlaying;
 
 
     private TimeSpan _duration;
