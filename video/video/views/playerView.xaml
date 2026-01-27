@@ -67,6 +67,7 @@
                         HorizontalAlignment="Stretch"
                         PreviewMouseLeftButtonDown="ProgressSlider_MouseDown"
                         PreviewMouseLeftButtonUp="ProgressSlider_MouseUp"
+                        PreviewMouseMove="ProgressSlider_MouseMove"
                         Margin="12,0"/>
 
                 <TextBlock Name="ProgressTimer"

@@ -35,13 +35,29 @@ namespace video.Views
             _timer.Tick += Timer_Tick;
             _timer.Start();
         }
+
         private bool _wasPlayingBeforeDrag;
-     
+
+        private void SetSliderValueFromMouse(MouseEventArgs e)
+        {
+            var pos = e.GetPosition(ProgressSlider).X;
+            var ratio = pos / ProgressSlider.ActualWidth;
+            ratio = Math.Clamp(ratio, 0, 1);
+
+            ProgressSlider.Value =
+                ratio * ProgressSlider.Maximum;
+        }
+        
 
         private void ProgressSlider_MouseDown(object sender, MouseButtonEventArgs e)
         {
             _wasPlayingBeforeDrag = VM.IsPlaying;
             VM.IsUserDraggingSlider = true;
+
+            ProgressSlider.CaptureMouse();
+
+            SetSliderValueFromMouse(e);
+
             if (_wasPlayingBeforeDrag)
                 VM.PlayPauseCommand.Execute(null);
         }
@@ -49,10 +65,21 @@ namespace video.Views
         private void ProgressSlider_MouseUp(object sender, MouseButtonEventArgs e)
         {
             VM.IsUserDraggingSlider = false;
+            ProgressSlider.ReleaseMouseCapture();   
+
+            SetSliderValueFromMouse(e);
             VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
 
             if (_wasPlayingBeforeDrag)
                 VM.PlayPauseCommand.Execute(null);
+        }
+
+        private void ProgressSlider_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!VM.IsUserDraggingSlider)
+                return;
+
+            SetSliderValueFromMouse(e);
         }
 
 
