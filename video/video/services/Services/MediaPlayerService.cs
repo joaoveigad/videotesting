@@ -42,6 +42,25 @@ namespace video.services
                 IsPlaying = true;
             }
         }
+        public void Seek(TimeSpan position)
+        {
+            if (_player.Source == null)
+                return;
+
+            if (!_player.NaturalDuration.HasTimeSpan)
+                return;
+
+            var duration = _player.NaturalDuration.TimeSpan;
+
+            if (position < TimeSpan.Zero)
+                position = TimeSpan.Zero;
+
+            if (position > duration)
+                position = duration;
+
+            _player.Position = position;
+        }
+
 
         public void Stop()
         {

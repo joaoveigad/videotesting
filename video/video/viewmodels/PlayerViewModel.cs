@@ -25,6 +25,8 @@ public class PlayerViewModel : ViewModelBase
 
     private int _currentIndex = -1;
     private string _currentFile = "";
+    public bool IsUserDraggingSlider { get; set; }
+
 
     private TimeSpan _duration;
     public TimeSpan Duration
@@ -107,7 +109,7 @@ public class PlayerViewModel : ViewModelBase
 
     private void Timer_Tick(object? sender, EventArgs e)
     {
-        if (!_mediaPlayerService.IsPlaying)
+        if (!_mediaPlayerService.IsPlaying || IsUserDraggingSlider)
             return;
 
         CurrentPosition = _mediaPlayerService.Position;
@@ -184,6 +186,7 @@ public class PlayerViewModel : ViewModelBase
 
     private VideoMetaData ShowMetadata(string path)
     {
+    
         return _metadataService.Get(path);
     }
 
@@ -222,6 +225,11 @@ public class PlayerViewModel : ViewModelBase
             _timer.Stop();
             CurrentPosition = TimeSpan.Zero;
         }
+    }
+
+    public void Seek(TimeSpan position)
+    {
+        _mediaPlayerService.Seek(position);
     }
 
     private void PreviousInPlaylist()

@@ -1,55 +1,67 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Input;
 using System.Windows.Threading;
 using video.services;
 using video.services.Services;
 
 namespace video.Views
 {
-    /// <summary>
-    /// Interaction logic for playerView.xaml
-    /// </summary>
     public partial class PlayerView : Window
     {
-
-        // STATE
-        private bool IsUserDraggingSlider = false;
-
-        // SERVICES / HELPERS
-
-        private readonly DispatcherTimer Timer = new()
+        private PlayerViewModel VM => (PlayerViewModel)DataContext;
+        private readonly DispatcherTimer _timer = new()
         {
-            Interval = TimeSpan.FromSeconds(0.1)
+            Interval = TimeSpan.FromMilliseconds(200)
         };
 
-        // CONSTRUCTOR
 
         public PlayerView()
         {
             InitializeComponent();
+
             var dialogService = new MediaDialogService();
             var playerService = new MediaPlayerService(Player);
             var metadataService = new VideoMetadataService();
 
-            DataContext = new PlayerViewModel(dialogService,playerService, metadataService);
+            DataContext = new PlayerViewModel(
+                dialogService,
+                playerService,
+                metadataService
+            );
 
-            Timer.Tick += Timer_Tick;
-            Timer.Start();
+
+            _timer.Tick += Timer_Tick;
+            _timer.Start();
         }
 
-        // TIMER / PLAYER SYNC
+        private void ProgressSlider_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            VM.IsUserDraggingSlider = true;
+        }
+
+        private void ProgressSlider_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            VM.IsUserDraggingSlider = false;
+            VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
+        }
 
         private void Timer_Tick(object? sender, EventArgs e)
         {
-            if (Player.Source != null &&
-                Player.NaturalDuration.HasTimeSpan &&
-                !IsUserDraggingSlider)
-            {
-                ProgressSlider.Maximum =
-                    Player.NaturalDuration.TimeSpan.TotalSeconds;
+            if (VM.IsUserDraggingSlider)
+                return;
 
-                ProgressSlider.Value =
-                    Player.Position.TotalSeconds;
-            }
+            if (Player.Source == null)
+                return;
+
+            if (!Player.NaturalDuration.HasTimeSpan)
+                return;
+
+            ProgressSlider.Maximum =
+                Player.NaturalDuration.TimeSpan.TotalSeconds;
+
+            ProgressSlider.Value =
+                Player.Position.TotalSeconds;
         }
 
 
