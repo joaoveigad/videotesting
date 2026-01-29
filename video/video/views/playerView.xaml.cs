@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 using video.services;
@@ -46,8 +47,8 @@ namespace video.Views
             ProgressSlider.Value =
                 ratio * ProgressSlider.Maximum;
         }
-        
 
+        // Evento de mouse para o slider de progresso
         private void ProgressSlider_MouseDown(object sender, MouseButtonEventArgs e)
         {
 
@@ -86,7 +87,18 @@ namespace video.Views
 
         }
 
+        //Evento de mouse para o volume
 
+        private void VolumeSlider_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var slider = (Slider)sender;
+            var pos = e.GetPosition(slider).X / slider.ActualWidth;
+            slider.Value = slider.Minimum + pos * (slider.Maximum - slider.Minimum);
+         
+        }
+
+
+        // Timer para atualizar o slider de progresso
         private void Timer_Tick(object? sender, EventArgs e)
         {
             if (VM.IsUserDraggingSlider)

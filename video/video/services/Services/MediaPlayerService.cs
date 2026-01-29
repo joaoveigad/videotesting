@@ -9,8 +9,11 @@ namespace video.services
         private readonly MediaElement _player;
 
         public bool IsPlaying { get; private set; }
+        double Volume { get; set; }
 
         public TimeSpan Position => _player.Position;
+
+        double IMediaPlayerService.Volume { get => Volume; set => Volume = value; }
 
         public event EventHandler? MediaEnded;
 
