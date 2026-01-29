@@ -28,6 +28,18 @@ public class PlayerViewModel : ViewModelBase
     public bool IsUserDraggingSlider { get; set; } // Variáveis para controlar o slider no code-behind do xaml
     public bool IsPlaying => _mediaPlayerService.IsPlaying;
 
+    private double _volume = 1.0;
+
+    public double Volume
+    {
+        get => _volume;
+        set
+        {
+            _volume = value;
+            _mediaPlayerService.Volume = value;
+            OnPropertyChanged(nameof(Volume));
+        }
+    }
 
     private TimeSpan _duration;
     public TimeSpan Duration

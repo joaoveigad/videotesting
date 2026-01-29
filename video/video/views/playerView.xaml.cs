@@ -50,12 +50,14 @@ namespace video.Views
 
         private void ProgressSlider_MouseDown(object sender, MouseButtonEventArgs e)
         {
+
             _wasPlayingBeforeDrag = VM.IsPlaying;
             VM.IsUserDraggingSlider = true;
 
             ProgressSlider.CaptureMouse();
 
             SetSliderValueFromMouse(e);
+            VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
 
             if (_wasPlayingBeforeDrag)
                 VM.PlayPauseCommand.Execute(null);
@@ -64,7 +66,7 @@ namespace video.Views
         private void ProgressSlider_MouseUp(object sender, MouseButtonEventArgs e)
         {
             VM.IsUserDraggingSlider = false;
-            ProgressSlider.ReleaseMouseCapture();   
+            ProgressSlider.ReleaseMouseCapture();
 
             SetSliderValueFromMouse(e);
             VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
@@ -75,10 +77,13 @@ namespace video.Views
 
         private void ProgressSlider_MouseMove(object sender, MouseEventArgs e)
         {
+            
             if (!VM.IsUserDraggingSlider)
                 return;
 
             SetSliderValueFromMouse(e);
+            VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
+
         }
 
 
