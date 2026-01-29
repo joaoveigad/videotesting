@@ -82,7 +82,6 @@
                         Width="100"
                         VerticalAlignment="Center"
                         Margin="12,0"
-                        PreviewMouseDown="VolumeSlider_MouseDown"
                         Minimum="0"
                         Maximum="1"
                         IsMoveToPointEnabled="True"

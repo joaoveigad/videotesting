@@ -35,8 +35,8 @@ public class PlayerViewModel : ViewModelBase
         get => _volume;
         set
         {
-            _volume = value;
-            _mediaPlayerService.Volume = value;
+            _volume = Math.Clamp(value, 0, 1);
+            _mediaPlayerService.Volume = _volume;
             OnPropertyChanged(nameof(Volume));
         }
     }

@@ -1,7 +1,4 @@
-﻿
-using TagLib.Id3v2;
-
-namespace video.services.Interfaces
+﻿namespace video.services.Interfaces
 {
     public interface IMediaPlayerService
     {

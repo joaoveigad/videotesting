@@ -89,13 +89,14 @@ namespace video.Views
 
         //Evento de mouse para o volume
 
-        private void VolumeSlider_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            var slider = (Slider)sender;
-            var pos = e.GetPosition(slider).X / slider.ActualWidth;
-            slider.Value = slider.Minimum + pos * (slider.Maximum - slider.Minimum);
-         
-        }
+        //private void VolumeSlider_MouseDown(object sender, MouseButtonEventArgs e)
+        //{
+        //    var slider = (Slider)sender;
+        //    var pos = e.GetPosition(slider).X / slider.ActualWidth;
+        //    slider.Value = slider.Minimum + pos * (slider.Maximum - slider.Minimum);
+        //    VM.Volume = slider.Value;
+
+        //}
 
 
         // Timer para atualizar o slider de progresso
