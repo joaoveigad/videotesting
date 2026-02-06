@@ -22,6 +22,9 @@ public class PlayerViewModel : ViewModelBase
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
     public ObservableCollection<string> Playlist { get; } = new();
 
+
+    //  Variáveis de estado
+    private VideoMetaData? _currentMetadata;
     private int _currentIndex = -1;
     private string _currentFile = "";
     public bool IsUserDraggingSlider { get; set; } // Variáveis para controlar o slider no code-behind do xaml
@@ -154,9 +157,9 @@ public class PlayerViewModel : ViewModelBase
         _currentIndex = 0;
         _currentFile = Playlist[_currentIndex];
 
-        var metadata = _metadataService.Get(_currentFile);
+        _currentMetadata = _metadataService.Get(_currentFile);
 
-        Duration = metadata.Duration;
+        Duration = _currentMetadata.Duration;
         CurrentPosition = TimeSpan.Zero;
 
         _mediaPlayerService.Load(_currentFile);
@@ -180,8 +183,8 @@ public class PlayerViewModel : ViewModelBase
         _currentIndex = 0;
         _currentFile = Playlist[_currentIndex];
 
-        var metadata = _metadataService.Get(_currentFile);
-        Duration = metadata.Duration;
+        _currentMetadata = _metadataService.Get(_currentFile);
+        Duration = _currentMetadata.Duration;
         CurrentPosition = TimeSpan.Zero;
 
         _mediaPlayerService.Load(_currentFile);
@@ -203,12 +206,11 @@ public class PlayerViewModel : ViewModelBase
             return;
 
         Playlist.Add(path);
-        var metadata = _metadataService.Get(path);
     }
 
-    private VideoMetaData ShowMetadata(string path)
+    private VideoMetaData? ShowMetadata(string path)
     {
-        return _metadataService.Get(path);
+        return _currentMetadata;
     }
 
     // Playback / File Controls
@@ -228,6 +230,7 @@ public class PlayerViewModel : ViewModelBase
         Playlist.Clear();
         _currentIndex = -1;
         _currentFile = "";
+        _currentMetadata = null;
         isLoaded = false;
 
         Duration = TimeSpan.Zero;
@@ -285,8 +288,8 @@ public class PlayerViewModel : ViewModelBase
     {
         _currentFile = Playlist[_currentIndex];
 
-        var metadata = _metadataService.Get(_currentFile);
-        Duration = metadata.Duration;
+        _currentMetadata = _metadataService.Get(_currentFile);
+        Duration = _currentMetadata.Duration;
         CurrentPosition = TimeSpan.Zero;
 
         _mediaPlayerService.Load(_currentFile);
@@ -313,13 +316,13 @@ public class PlayerViewModel : ViewModelBase
     // Menu Item Actions
     private void ViewFileData()
     {
-        if (!_mediaPlayerService.isLoaded)
+        if (!_mediaPlayerService.isLoaded || _currentMetadata == null)
         {
-            MessageBox.Show("The media is currently paused.");
+            MessageBox.Show("The o file loaded.");
             return;
         }
 
-        var meta = ShowMetadata(_currentFile);
+        var meta = _currentMetadata;
         MessageBox.Show(
             $"Title: {meta.Title}\n" +
             $"Duration: {meta.Duration:hh\\:mm\\:ss}"
