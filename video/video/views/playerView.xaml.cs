@@ -13,6 +13,11 @@ namespace video.Views
             Interval = TimeSpan.FromMilliseconds(200)
         };
 
+        private readonly DispatcherTimer _hideCursorTimer = new()
+        {
+            Interval = TimeSpan.FromSeconds(3)
+        };
+
 
         public PlayerView()
         {
@@ -31,6 +36,12 @@ namespace video.Views
 
             _timer.Tick += Timer_Tick;
             _timer.Start();
+            _hideCursorTimer.Start();
+            _hideCursorTimer.Tick += (_, _) =>
+            {
+                if (_isFullscreen)
+                    HideUi();
+            };
         }
 
         private bool _wasPlayingBeforeDrag;
@@ -121,6 +132,7 @@ namespace video.Views
                 WindowState = WindowState.Maximized;
 
                 _isFullscreen = true;
+                HideUi();
             }
             else
             {
@@ -129,12 +141,33 @@ namespace video.Views
                 WindowState = _prevState;
 
                 _isFullscreen = false;
+                ShowUi();
             }
         }
-
         private void Fullscreen_Click(object sender, RoutedEventArgs e)
         {
             ToggleFullscreen();
         }
+
+        private void ShowUi()
+        {
+            TopBar.Visibility = Visibility.Visible;
+            BottomBar.Visibility = Visibility.Visible;
+        }
+
+        private void HideUi()
+        {
+            TopBar.Visibility = Visibility.Collapsed;
+            BottomBar.Visibility = Visibility.Collapsed;
+        }
+
+        void Window_LeftMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!VM.IsPlaying)
+                return;
+            ToggleFullscreen();
+        }
+
+
     }
 }

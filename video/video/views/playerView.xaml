@@ -6,6 +6,7 @@
         Width="800"
         MinHeight="300"
         MinWidth="400"
+        MouseDoubleClick="Window_LeftMouseDoubleClick"
         xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Grid>
@@ -15,7 +16,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Border Grid.Row="0" Background="LightGray">
+        <Border x:Name="TopBar" Grid.Row="0" Background="LightGray">
             <Menu ItemsSource="{Binding MenuItems}"
                   Background="Transparent"
                   BorderThickness="0">
@@ -40,7 +41,8 @@
                           Stretch="Uniform"/>
         </Grid>
 
-        <Border Grid.Row="2"
+        <Border x:Name="BottomBar"
+                Grid.Row="2"
                 Background="LightGray"
                 Padding="4.5">
             <Grid>
