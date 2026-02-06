@@ -71,4 +71,5 @@ internal class MediaPlayerService : IMediaPlayerService
         _player.Stop();
         IsPlaying = false;
     }
+
 }

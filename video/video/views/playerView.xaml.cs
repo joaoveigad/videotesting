@@ -34,6 +34,11 @@ namespace video.Views
         }
 
         private bool _wasPlayingBeforeDrag;
+        private bool _isFullscreen;
+
+        private WindowState _prevState;
+        private WindowStyle _prevStyle;
+        private ResizeMode _prevResize;
 
         private void SetSliderValueFromMouse(MouseEventArgs e)
         {
@@ -103,6 +108,33 @@ namespace video.Views
                 Player.Position.TotalSeconds;
         }
 
+        private void ToggleFullscreen()
+        {
+            if (!_isFullscreen)
+            {
+                _prevState = WindowState;
+                _prevStyle = WindowStyle;
+                _prevResize = ResizeMode;
 
+                WindowStyle = WindowStyle.None;
+                ResizeMode = ResizeMode.NoResize;
+                WindowState = WindowState.Maximized;
+
+                _isFullscreen = true;
+            }
+            else
+            {
+                WindowStyle = _prevStyle;
+                ResizeMode = _prevResize;
+                WindowState = _prevState;
+
+                _isFullscreen = false;
+            }
+        }
+
+        private void Fullscreen_Click(object sender, RoutedEventArgs e)
+        {
+            ToggleFullscreen();
+        }
     }
 }

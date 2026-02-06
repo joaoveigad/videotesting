@@ -59,6 +59,7 @@
                     <Button Name="BackBtn" Command="{Binding PreviousCommand}" Width="40" Height="30" Margin="8,0,0,0">⏮</Button>
                     <Button Name="StopBtn" Command="{Binding StopCommand}" Width="70" Height="30" Margin="8,0,0,0">⏹</Button>
                     <Button Name="ForwardBtn" Command="{Binding NextCommand}" Width="40" Height="30" Margin="8,0,0,0">⏩</Button>
+                    <Button Name="Fullscreen" Click="Fullscreen_Click" Width="40" Height="30" Margin="8,0,0,0">FS</Button>
                 </StackPanel>
 
                 <Slider Name="ProgressSlider" 
