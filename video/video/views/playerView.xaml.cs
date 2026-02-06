@@ -13,7 +13,7 @@ namespace video.Views
             Interval = TimeSpan.FromMilliseconds(200)
         };
 
-        private readonly DispatcherTimer _hideCursorTimer = new()
+        private readonly DispatcherTimer _hideCursorTimer = new()  // Timer para esconder o cursor, não implementado ainda.
         {
             Interval = TimeSpan.FromSeconds(3)
         };
@@ -36,12 +36,7 @@ namespace video.Views
 
             _timer.Tick += Timer_Tick;
             _timer.Start();
-            _hideCursorTimer.Start();
-            _hideCursorTimer.Tick += (_, _) =>
-            {
-                if (_isFullscreen)
-                    HideUi();
-            };
+
         }
 
         private bool _wasPlayingBeforeDrag;
@@ -161,10 +156,21 @@ namespace video.Views
             BottomBar.Visibility = Visibility.Collapsed;
         }
 
-        void Window_LeftMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Window_LeftMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (!VM.IsPlaying)
                 return;
+            ToggleFullscreen();
+        }
+
+        private void Window_ESCDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key != Key.Escape)
+                return; 
+
+            if (!_isFullscreen)
+                return;
+
             ToggleFullscreen();
         }
 
