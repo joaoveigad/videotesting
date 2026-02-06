@@ -8,16 +8,32 @@ namespace video.services.Services
     {
         public VideoMetaData Get(string path)
         {
-            var file = File.Create(path);
+            if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path))
+                return new VideoMetaData
+                {
+                    Title = ""
+                };
 
-            return new VideoMetaData
+            try
             {
-                Duration = file.Properties.Duration,
-                Width = file.Properties.VideoWidth,
-                Height = file.Properties.VideoHeight,
-                Bitrate = file.Properties.AudioBitrate,
-                Title = file.Tag.Title ?? System.IO.Path.GetFileNameWithoutExtension(path)
-            };
+                using var file = TagLib.File.Create(path);
+
+                return new VideoMetaData
+                {
+                    Duration = file.Properties.Duration,
+                    Width = file.Properties.VideoWidth,
+                    Height = file.Properties.VideoHeight,
+                    Bitrate = file.Properties.AudioBitrate,
+                    Title = file.Tag.Title ?? System.IO.Path.GetFileNameWithoutExtension(path)
+                };
+            }
+            catch (TagLib.UnsupportedFormatException)
+            {
+                return new VideoMetaData
+                {
+                    Title = System.IO.Path.GetFileNameWithoutExtension(path)
+                };
+            }
         }
     }
 }

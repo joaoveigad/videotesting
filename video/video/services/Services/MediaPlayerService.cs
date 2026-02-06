@@ -6,6 +6,7 @@ internal class MediaPlayerService : IMediaPlayerService
     private readonly MediaElement _player;
 
     public bool IsPlaying { get; private set; }
+    public bool isLoaded { get; set; }
 
     public TimeSpan Position => _player.Position;
 
@@ -31,6 +32,8 @@ internal class MediaPlayerService : IMediaPlayerService
         IsPlaying = false;
         _player.Stop();
         _player.Source = new Uri(path);
+        isLoaded = true;
+
     }
 
     public void PlayPause()
@@ -69,7 +72,7 @@ internal class MediaPlayerService : IMediaPlayerService
     public void Stop()
     {
         _player.Stop();
-        IsPlaying = false;
+        _player.Source = null;
     }
 
 }

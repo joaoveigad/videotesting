@@ -27,6 +27,8 @@ public class PlayerViewModel : ViewModelBase
     public bool IsUserDraggingSlider { get; set; } // Variáveis para controlar o slider no code-behind do xaml
     public bool IsPlaying => _mediaPlayerService.IsPlaying;
 
+    public bool isLoaded = false; // Variável para controlar se um arquivo foi carregado, evitando erros de acesso a arquivos não carregados
+
     private double _volume = 1.0;
 
     public double Volume
@@ -147,16 +149,21 @@ public class PlayerViewModel : ViewModelBase
         if (string.IsNullOrEmpty(path))
             return;
 
-        var metadata = _metadataService.Get(path);
+        Playlist.Add(path);
+
+        _currentIndex = 0;
+        _currentFile = Playlist[_currentIndex];
+
+        var metadata = _metadataService.Get(_currentFile);
 
         Duration = metadata.Duration;
         CurrentPosition = TimeSpan.Zero;
 
-        _mediaPlayerService.Load(path);
+        _mediaPlayerService.Load(_currentFile);
         _mediaPlayerService.PlayPause();
 
         _timer.Start();
-        _currentFile = path;
+        isLoaded = true;
     }
 
     private void OpenMany()
@@ -185,23 +192,24 @@ public class PlayerViewModel : ViewModelBase
     private void addToPlaylist()
     {
         if (_currentIndex == -1 && !string.IsNullOrEmpty(_currentFile))
+        {
             Playlist.Clear();
             Playlist.Add(_currentFile);
             _currentIndex = 0;
+        }
 
         var path = _mediaDialogService.OpenMediaFileDialog();
         if (string.IsNullOrEmpty(path))
             return;
+
         Playlist.Add(path);
         var metadata = _metadataService.Get(path);
     }
 
     private VideoMetaData ShowMetadata(string path)
     {
-    
         return _metadataService.Get(path);
     }
-
 
     // Playback / File Controls
 
@@ -217,10 +225,18 @@ public class PlayerViewModel : ViewModelBase
 
     private void Stop()
     {
+        Playlist.Clear();
+        _currentIndex = -1;
+        _currentFile = "";
+        isLoaded = false;
+
+        Duration = TimeSpan.Zero;
+        CurrentPosition = TimeSpan.Zero;
+
         _mediaPlayerService.Stop();
         _timer.Stop();
-        CurrentPosition = TimeSpan.Zero;
     }
+
 
     private void NextInPlaylist()
     {
@@ -231,7 +247,7 @@ public class PlayerViewModel : ViewModelBase
         LoadFromPlaylist();
 
         //Lógica para fim da playlist
-        if(_currentIndex == 0)
+        if (_currentIndex == 0)
         {
             _mediaPlayerService.Stop();
             _timer.Stop();
@@ -265,7 +281,6 @@ public class PlayerViewModel : ViewModelBase
         LoadFromPlaylist();
     }
 
-
     private void LoadFromPlaylist()
     {
         _currentFile = Playlist[_currentIndex];
@@ -298,7 +313,7 @@ public class PlayerViewModel : ViewModelBase
     // Menu Item Actions
     private void ViewFileData()
     {
-        if (!_mediaPlayerService.IsPlaying)
+        if (!_mediaPlayerService.isLoaded)
         {
             MessageBox.Show("The media is currently paused.");
             return;
@@ -313,14 +328,18 @@ public class PlayerViewModel : ViewModelBase
 
     private void ViewPlaylist()
     {
-        if (!_mediaPlayerService.IsPlaying || Playlist.Count <= 0)
+        if (!_mediaPlayerService.isLoaded || Playlist.Count <= 0)
         {
             MessageBox.Show("There is no playlist loaded.");
             return;
         }
 
         // Converte a playlist para string
-        string playlistText = string.Join(Environment.NewLine, Playlist.Select(p => Path.GetFileNameWithoutExtension(p)));
+        string playlistText = string.Join(
+            Environment.NewLine,
+            Playlist.Select(p => Path.GetFileNameWithoutExtension(p))
+        );
+
         MessageBox.Show(playlistText);
     }
 
