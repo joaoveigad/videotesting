@@ -16,7 +16,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
+        <!-- Menu superior -->
         <Border x:Name="TopBar" Grid.Row="0" Background="LightGray">
             <Menu ItemsSource="{Binding MenuItems}"
                   Background="Transparent"
@@ -35,13 +35,17 @@
             </Menu>
         </Border>
 
-        <Grid Grid.Row="1" Background="Black">
+        <!-- Área de vídeo -->
+        <Grid Grid.Row="1"
+              Background="Black"
+              MouseMove="OnMouseMoved">
+
             <MediaElement x:Name="Player"
                           LoadedBehavior="Manual"
                           UnloadedBehavior="Manual"
                           Stretch="Uniform"/>
         </Grid>
-
+        <!-- Barra de comandos -->
         <Border x:Name="BottomBar"
                 Grid.Row="2"
                 Background="LightGray"

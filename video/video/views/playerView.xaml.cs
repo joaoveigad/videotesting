@@ -16,7 +16,7 @@ namespace video.Views
 
         private readonly DispatcherTimer _hideCursorTimer = new()  // Timer para esconder o cursor, não implementado ainda.
         {
-            Interval = TimeSpan.FromSeconds(3)
+            Interval = TimeSpan.FromSeconds(2)
         };
 
         public PlayerView()
@@ -35,15 +35,22 @@ namespace video.Views
 
             _timer.Tick += Timer_Tick;
             _timer.Start();
+
+            _hideCursorTimer.Tick += HideCursorTimer_Tick;
         }
 
+        // Variáveis de estado
         private bool _wasPlayingBeforeDrag;
         private bool _isFullscreen;
+        private bool _isUIHidden;
 
         private WindowState _prevState;
         private WindowStyle _prevStyle;
         private ResizeMode _prevResize;
 
+        private Point _lastMousePosition;
+
+        // Método para definir o valor do slider com base na posição do mouse
         private void SetSliderValueFromMouse(MouseEventArgs e)
         {
             var pos = e.GetPosition(ProgressSlider).X;
@@ -110,6 +117,16 @@ namespace video.Views
                 Player.Position.TotalSeconds;
         }
 
+        private void HideCursorTimer_Tick(object? sender, EventArgs e)
+        {
+            if (_isFullscreen && !_isUIHidden)
+            {
+                HideUi();
+            }
+
+            _hideCursorTimer.Stop();
+        }
+
         private void ToggleFullscreen()
         {
             if (!_isFullscreen)
@@ -123,7 +140,9 @@ namespace video.Views
                 WindowState = WindowState.Maximized;
 
                 _isFullscreen = true;
-                HideUi();
+
+                _hideCursorTimer.Stop();
+                _hideCursorTimer.Start();
             }
             else
             {
@@ -132,28 +151,37 @@ namespace video.Views
                 WindowState = _prevState;
 
                 _isFullscreen = false;
+
                 ShowUi();
             }
-        }
-
-        private void Fullscreen_Click(object sender, RoutedEventArgs e)
-        {
-            ToggleFullscreen();
         }
 
         private void ShowUi()
         {
             TopBar.Visibility = Visibility.Visible;
             BottomBar.Visibility = Visibility.Visible;
+            _isUIHidden = false;
+            Mouse.OverrideCursor = null;
         }
 
         private void HideUi()
         {
             TopBar.Visibility = Visibility.Collapsed;
             BottomBar.Visibility = Visibility.Collapsed;
+            _isUIHidden = true;
+            Mouse.OverrideCursor = Cursors.None;
         }
 
+        // interações do usuário T&M
         private void Window_LeftMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (!VM.IsPlaying)
+                return;
+
+            ToggleFullscreen();
+        }
+
+        private void Fullscreen_Click(object sender, RoutedEventArgs e)
         {
             if (!VM.IsPlaying)
                 return;
@@ -175,6 +203,31 @@ namespace video.Views
                 e.Handled = true;
                 return;
             }
+
+            if (e.Key == Key.Delete)
+            {
+                ToggleFullscreen();
+                return;
+            }
+        }
+
+        private void OnMouseMoved(object sender, MouseEventArgs e)
+        {
+            if (!_isFullscreen)
+                return;
+
+            var currentPos = e.GetPosition(this);
+
+            if (currentPos == _lastMousePosition)
+                return;
+
+            _lastMousePosition = currentPos;
+
+            if (_isUIHidden)
+                ShowUi();
+
+            _hideCursorTimer.Stop();
+            _hideCursorTimer.Start();
         }
     }
 }
