@@ -8,6 +8,7 @@ namespace video.Views
     public partial class PlayerView : Window
     {
         private PlayerViewModel VM => (PlayerViewModel)DataContext;
+
         private readonly DispatcherTimer _timer = new()
         {
             Interval = TimeSpan.FromMilliseconds(200)
@@ -17,7 +18,6 @@ namespace video.Views
         {
             Interval = TimeSpan.FromSeconds(3)
         };
-
 
         public PlayerView()
         {
@@ -33,10 +33,8 @@ namespace video.Views
                 metadataService
             );
 
-
             _timer.Tick += Timer_Tick;
             _timer.Start();
-
         }
 
         private bool _wasPlayingBeforeDrag;
@@ -50,6 +48,7 @@ namespace video.Views
         {
             var pos = e.GetPosition(ProgressSlider).X;
             var ratio = pos / ProgressSlider.ActualWidth;
+
             ratio = Math.Clamp(ratio, 0, 1);
 
             ProgressSlider.Value =
@@ -59,7 +58,6 @@ namespace video.Views
         // Evento de mouse para o slider de progresso
         private void ProgressSlider_MouseDown(object sender, MouseButtonEventArgs e)
         {
-
             _wasPlayingBeforeDrag = VM.IsPlaying;
             VM.IsUserDraggingSlider = true;
 
@@ -86,13 +84,11 @@ namespace video.Views
 
         private void ProgressSlider_MouseMove(object sender, MouseEventArgs e)
         {
-            
             if (!VM.IsUserDraggingSlider)
                 return;
 
             SetSliderValueFromMouse(e);
             VM.Seek(TimeSpan.FromSeconds(ProgressSlider.Value));
-
         }
 
         // Timer para atualizar o slider de progresso
@@ -139,6 +135,7 @@ namespace video.Views
                 ShowUi();
             }
         }
+
         private void Fullscreen_Click(object sender, RoutedEventArgs e)
         {
             ToggleFullscreen();
@@ -160,20 +157,24 @@ namespace video.Views
         {
             if (!VM.IsPlaying)
                 return;
+
             ToggleFullscreen();
         }
 
-        private void Window_ESCDown(object sender, KeyEventArgs e)
+        private void Window_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.Escape)
-                return; 
-
-            if (!_isFullscreen)
+            if (e.Key == Key.Escape && _isFullscreen)
+            {
+                ToggleFullscreen();
                 return;
+            }
 
-            ToggleFullscreen();
+            if (e.Key == Key.Space)
+            {
+                VM.PlayPauseCommand.Execute(null);
+                e.Handled = true;
+                return;
+            }
         }
-
-
     }
 }

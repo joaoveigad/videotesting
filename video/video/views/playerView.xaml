@@ -7,7 +7,7 @@
         MinHeight="300"
         MinWidth="400"
         MouseDoubleClick="Window_LeftMouseDoubleClick"
-        KeyDown="Window_ESCDown"
+        KeyDown="Window_KeyDown"
         xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
     <Grid>
