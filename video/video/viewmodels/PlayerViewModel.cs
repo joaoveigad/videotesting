@@ -18,7 +18,7 @@ public class PlayerViewModel : ViewModelBase
     public ICommand StopCommand { get; }
     public ICommand PreviousCommand { get; }
     public ICommand FileMetadata { get; }
-
+    public RelayCommand ToggleMuteCommand { get; }
     public ObservableCollection<MenuItemViewModel> MenuItems { get; }
     public ObservableCollection<string> Playlist { get; } = new();
 
@@ -42,6 +42,21 @@ public class PlayerViewModel : ViewModelBase
             _volume = Math.Clamp(value, 0, 1);
             _mediaPlayerService.Volume = _volume;
             OnPropertyChanged(nameof(Volume));
+        }
+    }
+
+    private double _lastVolume = 1.0;
+
+    private bool _isMuted;
+
+    public bool isMuted
+    {
+        get => _isMuted;
+        set
+        {
+            _isMuted = value;
+            _mediaPlayerService.Volume = _isMuted ? 0 : Volume;
+            OnPropertyChanged(nameof(isMuted));
         }
     }
 
@@ -96,6 +111,7 @@ public class PlayerViewModel : ViewModelBase
         NextCommand = new RelayCommand(NextInPlaylist);
         PreviousCommand = new RelayCommand(PreviousInPlaylist);
         FileMetadata = new RelayCommand(() => ShowMetadata(_currentFile));
+        ToggleMuteCommand = new RelayCommand(ToggleMute);
 
         MenuItems = new ObservableCollection<MenuItemViewModel>
         {
@@ -240,7 +256,6 @@ public class PlayerViewModel : ViewModelBase
         _timer.Stop();
     }
 
-
     private void NextInPlaylist()
     {
         if (Playlist.Count == 0)
@@ -261,6 +276,20 @@ public class PlayerViewModel : ViewModelBase
     public void Seek(TimeSpan position)
     {
         _mediaPlayerService.Seek(position);
+    }
+
+    public void ToggleMute()
+    {
+        if (!isMuted)
+        {
+            _lastVolume = Volume == 0 ? 0.5 : Volume;
+            isMuted = true;
+        }
+        else
+        {
+            isMuted = false;
+            Volume = _lastVolume;
+        }
     }
 
     private void PreviousInPlaylist()

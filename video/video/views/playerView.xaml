@@ -56,6 +56,7 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal"
@@ -98,6 +99,7 @@
                         <TextBlock Text="{Binding Volume, StringFormat={}{0:P0}}"/>
                     </Slider.ToolTip>
                 </Slider>
+                <Button Name="mute" Grid.Column="4" Command="{Binding ToggleMuteCommand}" Width="40" Height="30" Margin="8,0,0,0">Mute</Button>
             </Grid>
         </Border>
     </Grid>
