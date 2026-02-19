@@ -49,6 +49,9 @@ public class PlayerViewModel : ViewModelBase
 
     private bool _isMuted;
 
+    public string MuteState => isMuted ? "🔇" : "🔊";
+
+
     public bool isMuted
     {
         get => _isMuted;
@@ -57,6 +60,7 @@ public class PlayerViewModel : ViewModelBase
             _isMuted = value;
             _mediaPlayerService.Volume = _isMuted ? 0 : Volume;
             OnPropertyChanged(nameof(isMuted));
+            OnPropertyChanged(nameof(MuteState));
         }
     }
 
